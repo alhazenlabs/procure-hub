@@ -1,4 +1,40 @@
-basePath: /api/v1
+basePath: /products/procure-hub
+definitions:
+  models.User:
+    description: User model to create a new user
+    properties:
+      companyName:
+        type: string
+      createdAt:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      primaryOwnerID:
+        type: integer
+      updatedAt:
+        type: integer
+      userType:
+        $ref: '#/definitions/models.userType'
+    required:
+    - companyName
+    - email
+    - name
+    - password
+    - primaryOwnerID
+    - userType
+    type: object
+  models.userType:
+    enum:
+    - primary_owner
+    - client
+    type: string
+    x-enum-varnames:
+    - PrimaryOwner
+    - Client
 info:
   contact: {}
 paths:
@@ -17,4 +53,34 @@ paths:
       summary: ping example
       tags:
       - example
+  /users/v1/signup:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with the provided information.
+      parameters:
+      - description: User registration request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User registered successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: object
+        "409":
+          description: Conflict
+          schema:
+            type: object
+      summary: Register a new user
+      tags:
+      - Users
 swagger: "2.0"

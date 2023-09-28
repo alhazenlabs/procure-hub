@@ -37,6 +37,103 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/v1/signup": {
+            "post": {
+                "description": "Register a new user with the provided information.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Register a new user",
+                "parameters": [
+                    {
+                        "description": "User registration request",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.User": {
+            "description": "User model to create a new user",
+            "type": "object",
+            "required": [
+                "companyName",
+                "email",
+                "name",
+                "password",
+                "primaryOwnerID",
+                "userType"
+            ],
+            "properties": {
+                "companyName": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "primaryOwnerID": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "integer"
+                },
+                "userType": {
+                    "$ref": "#/definitions/models.userType"
+                }
+            }
+        },
+        "models.userType": {
+            "type": "string",
+            "enum": [
+                "primary_owner",
+                "client"
+            ],
+            "x-enum-varnames": [
+                "PrimaryOwner",
+                "Client"
+            ]
         }
     }
 }`
@@ -45,7 +142,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
 	Host:             "",
-	BasePath:         "/api/v1",
+	BasePath:         "/products/procure-hub",
 	Schemes:          []string{},
 	Title:            "",
 	Description:      "",

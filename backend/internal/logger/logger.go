@@ -22,18 +22,18 @@ func init() {
 	}
 }
 
-func Info(message string, fields ...zap.Field) {
+func Info(message string, fields ...zapcore.Field) {
 	zapLog.Info(message, fields...)
 }
 
-func Debug(message string, fields ...zap.Field) {
+func Debug(message string, fields ...zapcore.Field) {
 	zapLog.Debug(message, fields...)
 }
 
-func Error(message string, fields ...zap.Field) {
+func Error(message string, fields ...zapcore.Field) {
 	zapLog.Error(message, fields...)
 }
 
-func Fatal(message string, fields ...zap.Field) {
+func Fatal(message string, fields ...zapcore.Field) {
 	zapLog.Fatal(message, fields...)
 }

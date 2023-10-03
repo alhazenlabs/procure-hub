@@ -56,6 +56,7 @@ func StartServer() {
 		users := v1.Group("/users")
 		{
 			users.POST("/v1/signup", api.RegisterUser)
+			users.POST("/v1/login", api.LoginHandler)
 		}
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

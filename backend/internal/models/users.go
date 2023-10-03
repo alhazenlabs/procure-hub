@@ -23,8 +23,8 @@ type User struct {
 	CompanyName    string    `gorm:"size:100" validate:"required"`
 	PrimaryOwnerID uint      `validate:"required"`
 	Addresses      []Address `gorm:"type:json" swaggerignore:"true"` // Address struct for JSON serialization
-	CreatedAt      int       `gorm:"autoCreateTime"`
-	UpdatedAt      int       `gorm:"autoUpdateTime"`
+	CreatedAt      int       `gorm:"autoCreateTime" swaggerignore:"true"`
+	UpdatedAt      int       `gorm:"autoUpdateTime" swaggerignore:"true"`
 }
 
 // func (ct *userType) Scan(value interface{}) error {

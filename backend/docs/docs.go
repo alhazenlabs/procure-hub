@@ -38,6 +38,52 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/v1/login": {
+            "post": {
+                "description": "Log in with the provided email and password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User Login",
+                "parameters": [
+                    {
+                        "description": "User login request",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.LoginHandler.LoginData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/users/v1/signup": {
             "post": {
                 "description": "Register a new user with the provided information.",
@@ -86,6 +132,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "api.LoginHandler.LoginData": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.User": {
             "description": "User model to create a new user",
             "type": "object",
@@ -101,9 +162,6 @@ const docTemplate = `{
                 "companyName": {
                     "type": "string"
                 },
-                "createdAt": {
-                    "type": "integer"
-                },
                 "email": {
                     "type": "string"
                 },
@@ -114,9 +172,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "primaryOwnerID": {
-                    "type": "integer"
-                },
-                "updatedAt": {
                     "type": "integer"
                 },
                 "userType": {

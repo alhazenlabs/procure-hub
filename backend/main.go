@@ -2,6 +2,7 @@ package backend
 
 import (
 	"context"
+	"github.com/gin-contrib/cors" // Todo Remove in the production version
 	"net/http"
 
 	"github.com/alhazenlabs/procure-hub/backend/docs"
@@ -44,6 +45,17 @@ func StartServer() {
 
 	logger.Info("starting the backend server")
 	r := gin.Default()
+
+	// Todo remove the below in the prod version of the code
+	// Create a CORS configuration
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"} // Replace with your frontend URL
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+	config.AllowHeaders = []string{"Origin", "Content-Type"}
+
+	// Use CORS middleware with the specified configuration
+	r.Use(cors.New(config))
+
 	r.Use(otelgin.Middleware(middleware.ServiceName))
 
 	docs.SwaggerInfo.BasePath = BasePath

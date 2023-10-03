@@ -76,7 +76,7 @@ func RegisterUser(c *gin.Context) {
 
 	if err := tx.Create(&user).Error; err != nil {
 		errStr := "Failed creating user"
-		c.JSON(http.StatusInternalServerError, gin.H{"error": errStr})
+		c.JSON(http.StatusConflict, gin.H{"error": errStr})
 		logger.Error(errStr, zap.String("user", user.Email), zap.Any("error", err))
 		return
 	}

@@ -14,13 +14,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import BASE_URL from './config';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://alhazenlabs.com/">
+        Alhazen Labs
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -29,10 +31,13 @@ function Copyright(props) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
+const ERROR_UNAUTHORIZED = 401
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const [isErrorOpen, setIsErrorOpen] = React.useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -50,8 +55,22 @@ export default function SignIn() {
     } catch (error) {
       // Handle errors (e.g., show an error message to the user)
       console.error('Login failed:', error);
+      if (error.response && error.response.status == ERROR_UNAUTHORIZED) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+        setIsErrorOpen(true);
+      }
     }
   }
+
+  const handleCloseError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setIsErrorOpen(false);
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -69,7 +88,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Procure Hub
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -104,18 +123,27 @@ export default function SignIn() {
             >
               Sign In
             </Button>
+            <Snackbar open={isErrorOpen} autoHideDuration={6000} onClose={handleCloseError}>
+              <Alert onClose={handleCloseError} severity="error">
+                Invalid credentials. Please try again.
+              </Alert>
+            </Snackbar>
+          {/* Todo Uncomment while implementing the forgot password/signup flow
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
+
               <Grid item>
                 <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> 
+          */}
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

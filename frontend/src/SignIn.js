@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
+// import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import axios from 'axios';
 import BASE_URL from './config';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -37,6 +38,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [isErrorOpen, setIsErrorOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -52,6 +54,8 @@ export default function SignIn() {
   
       // Handle the response (you can customize this part)
       console.log('Login successful:', response.data);
+      navigate('/catalogue');
+      
     } catch (error) {
       // Handle errors (e.g., show an error message to the user)
       console.error('Login failed:', error);
